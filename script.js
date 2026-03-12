@@ -1,31 +1,38 @@
 var timerVal = 300;
 var scoreVal = 0;
 var nextNumber = 1;
+var totalBubbles = 40;
 
-//生成 bubbles
-var makeBubble = () => {
+function createBubble(num){
+  return `<div class="bubble">${num}</div>`;
+}
 
-  var clutter = "";
+function generateBoard(){
 
-  for(var i=0;i<40;i++){
+  var numbers=[];
 
-    var randomNum = Math.floor(Math.random()*9)+1;
-
-    clutter += `<div class="bubble">${randomNum}</div>`;
-
+  for(var i=0;i<totalBubbles-1;i++){
+    numbers.push(Math.floor(Math.random()*5)+1);
   }
 
-  document.querySelector("#pbtm").innerHTML = clutter;
+  numbers.push(nextNumber);
 
-};
+  numbers.sort(()=>Math.random()-0.5);
 
+  var clutter="";
 
-//Timer
-var runTimer = () => {
+  numbers.forEach(n=>{
+    clutter+=createBubble(n);
+  });
 
-  var timer = setInterval(function(){
+  document.querySelector("#pbtm").innerHTML=clutter;
+}
 
-    if(timerVal > 0){
+function runTimer(){
+
+  var timer=setInterval(function(){
+
+    if(timerVal>0){
 
       timerVal--;
 
@@ -33,47 +40,45 @@ var runTimer = () => {
 
       clearInterval(timer);
 
-      document.querySelector("#pbtm").innerHTML =
-      `<h1 style='color:royalblue'>Game Over</h1>`;
+      document.querySelector("#pbtm").innerHTML=
+      `<h1 style="color:royalblue">Game Over</h1>`;
 
     }
 
-    document.querySelector("#timerVal").innerHTML = timerVal;
+    document.querySelector("#timerVal").innerHTML=timerVal;
 
   },1000);
+}
 
-};
-
-
-//点击 bubble
 document.querySelector("#pbtm").addEventListener("click",function(e){
 
-  var clickedNum = Number(e.target.textContent);
+  if(!e.target.classList.contains("bubble")) return;
 
-  if(clickedNum === nextNumber){
+  var clickedNum=Number(e.target.textContent);
+
+  if(clickedNum===nextNumber){
 
     scoreVal++;
 
-    document.querySelector("#scoreVal").innerHTML = scoreVal;
+    document.querySelector("#scoreVal").innerHTML=scoreVal;
 
     nextNumber++;
 
-    if(nextNumber > 9){
-      nextNumber = 1;
-    }
+    if(nextNumber>5) nextNumber=1;
 
-    document.querySelector("#hitVal").innerHTML = nextNumber;
+    document.querySelector("#hitVal").innerHTML=nextNumber;
 
-    e.target.remove();
+    generateBoard();
 
   }
 
 });
 
+document.querySelector("#hitVal").innerHTML=nextNumber;
 
-//初始化
-document.querySelector("#hitVal").innerHTML = nextNumber;
-
-makeBubble();
+generateBoard();
 
 runTimer();
+
+runTimer();
+
