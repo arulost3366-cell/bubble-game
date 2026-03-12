@@ -1,28 +1,13 @@
-/* 去掉网页默认边距，防止iframe出现白边 */
+/* 去掉浏览器默认边距，避免iframe白边 */
 html, body{
 margin:0;
 padding:0;
-overflow:hidden;
-height:100%;
+background:white;
 font-family:Arial, Helvetica, sans-serif;
-background:#eef2f7;
-}
-
-/* 游戏区域 */
-#gameArea{
-position:relative;
-width:100%;
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
 }
 
 /* 顶部信息栏 */
 #topBar{
-position:absolute;
-top:0;
-left:0;
 width:100%;
 height:70px;
 background:royalblue;
@@ -30,7 +15,7 @@ display:flex;
 align-items:center;
 justify-content:space-around;
 color:white;
-font-size:20px;
+font-size:18px;
 font-weight:bold;
 }
 
@@ -41,6 +26,13 @@ color:black;
 padding:6px 14px;
 border-radius:6px;
 font-weight:bold;
+}
+
+/* 游戏区域 */
+#gameArea{
+width:100%;
+height:calc(100vh - 70px);
+position:relative;
 }
 
 /* bubble */
@@ -58,21 +50,20 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-font-size:42px;
+font-size:40px;
 font-weight:bold;
 
 cursor:pointer;
 
-transition:transform 0.2s, box-shadow 0.2s;
+transition:transform 0.2s;
 }
 
 /* hover效果 */
 .bubble:hover{
 transform:scale(1.08);
-box-shadow:0 8px 20px rgba(0,0,0,0.2);
 }
 
-/* 点击动画 */
+/* 点击效果 */
 .bubble:active{
-transform:scale(0.9);
+transform:scale(0.95);
 }
