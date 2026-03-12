@@ -1,52 +1,79 @@
 var timerVal = 300;
 var scoreVal = 0;
-var hitVal = 0;
+var nextNumber = 1;
 
-//Increase score
-var increaseScore = () => {
-  scoreVal += 10;
-  document.querySelector("#scoreVal").innerHTML = scoreVal;
-};
-
-//Hit value update
-var getNewHit = () => {
-  hitVal = Math.floor(Math.random() * 10);
-  document.querySelector("#hitVal").innerHTML = hitVal;
-};
-
-//Creates Bubbles with random numbers.
+//生成 bubbles
 var makeBubble = () => {
+
   var clutter = "";
-  for (var i = 0; i < 40; i++) {
-    var random_num = Math.floor(Math.random() * 10);
-    bubbleVal = random_num;
-    clutter += `<div class="bubble">${bubbleVal}</div>`;
+
+  for(var i=0;i<40;i++){
+
+    var randomNum = Math.floor(Math.random()*9)+1;
+
+    clutter += `<div class="bubble">${randomNum}</div>`;
+
   }
+
   document.querySelector("#pbtm").innerHTML = clutter;
+
 };
 
-//Timer run
+
+//Timer
 var runTimer = () => {
-  var timer = setInterval(() => {
-    if (timerVal > 0) {
+
+  var timer = setInterval(function(){
+
+    if(timerVal > 0){
+
       timerVal--;
-    } else {
+
+    }else{
+
       clearInterval(timer);
-      document.querySelector("#pbtm").innerHTML = `<h1 style='color:royalblue'>Game Over</h1>`;
-      //Clears memory when timer is finished.
+
+      document.querySelector("#pbtm").innerHTML =
+      `<h1 style='color:royalblue'>Game Over</h1>`;
+
     }
+
     document.querySelector("#timerVal").innerHTML = timerVal;
-  }, 1000);
+
+  },1000);
+
 };
-getNewHit();
-document.querySelector("#pbtm").addEventListener("click", (e) => {
-  if (e.target.classList.contains("bubble")) {
-    e.target.remove();   // bubble 消失
-    scoreVal += 1;
+
+
+//点击 bubble
+document.querySelector("#pbtm").addEventListener("click",function(e){
+
+  var clickedNum = Number(e.target.textContent);
+
+  if(clickedNum === nextNumber){
+
+    scoreVal++;
+
     document.querySelector("#scoreVal").innerHTML = scoreVal;
+
+    nextNumber++;
+
+    if(nextNumber > 9){
+      nextNumber = 1;
+    }
+
+    document.querySelector("#hitVal").innerHTML = nextNumber;
+
+    e.target.remove();
+
   }
+
 });
+
+
+//初始化
+document.querySelector("#hitVal").innerHTML = nextNumber;
+
 makeBubble();
+
 runTimer();
-
-
