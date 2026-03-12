@@ -2,78 +2,78 @@ var timerVal = 300;
 var scoreVal = 0;
 var nextNumber = 1;
 
-var gridCols = 4;
-var gridRows = 3;
-
 var area = document.querySelector("#gameArea");
 
 function shuffle(array){
-  for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+  for(let i=array.length-1;i>0;i--){
+    let j=Math.floor(Math.random()*(i+1));
+    [array[i],array[j]]=[array[j],array[i]];
   }
   return array;
 }
 
 function generateBoard(){
 
-  area.innerHTML = "";
+  area.innerHTML="";
 
-  nextNumber = 1;
-  document.querySelector("#hitVal").innerHTML = nextNumber;
+  nextNumber=1;
+  document.querySelector("#hitVal").innerHTML=nextNumber;
 
-  var numbers = [1,2,3,4,5,6,7,8,9];
-  numbers = shuffle(numbers);
+  var numbers=[1,2,3,4,5,6];
+  numbers=shuffle(numbers);
 
-  var cellWidth = area.clientWidth / gridCols;
-  var cellHeight = area.clientHeight / gridRows;
+  var cols=3;
+  var rows=2;
 
-  for(let i=0;i<9;i++){
+  var cellWidth=area.clientWidth/cols;
+  var cellHeight=area.clientHeight/rows;
 
-    var bubble = document.createElement("div");
+  for(let i=0;i<6;i++){
+
+    var bubble=document.createElement("div");
     bubble.classList.add("bubble");
 
-    bubble.textContent = numbers[i];
+    bubble.textContent=numbers[i];
 
-    var col = i % gridCols;
-    var row = Math.floor(i / gridCols);
+    var col=i%cols;
+    var row=Math.floor(i/cols);
 
-    var offsetX = Math.random()*40;
-    var offsetY = Math.random()*40;
+    var offsetX=Math.random()*40;
+    var offsetY=Math.random()*40;
 
-    bubble.style.left = (col * cellWidth + 30 + offsetX) + "px";
-    bubble.style.top = (row * cellHeight + 30 + offsetY) + "px";
+    bubble.style.left=(col*cellWidth+40+offsetX)+"px";
+    bubble.style.top=(row*cellHeight+40+offsetY)+"px";
 
-    bubble.onclick = function(){
+    bubble.onclick=function(){
 
-      var num = Number(this.textContent);
+      var num=Number(this.textContent);
 
-      if(num === nextNumber){
+      if(num===nextNumber){
 
         scoreVal++;
-        document.querySelector("#scoreVal").innerHTML = scoreVal;
+        document.querySelector("#scoreVal").innerHTML=scoreVal;
 
         this.remove();
 
         nextNumber++;
 
-        if(nextNumber > 9){
+        if(nextNumber>6){
 
           setTimeout(()=>{
             generateBoard();
-          },500);
+          },400);
 
         }else{
 
-          document.querySelector("#hitVal").innerHTML = nextNumber;
+          document.querySelector("#hitVal").innerHTML=nextNumber;
 
         }
 
       }
 
-    };
+    }
 
-    area.appendChild(bubble);
+    area.appendChild(bubble)
 
   }
 
@@ -81,21 +81,16 @@ function generateBoard(){
 
 function runTimer(){
 
-  var timer = setInterval(function(){
+  var timer=setInterval(function(){
 
-    if(timerVal > 0){
-
+    if(timerVal>0){
       timerVal--;
-
     }else{
-
       clearInterval(timer);
-
-      area.innerHTML = "<h1 style='text-align:center;margin-top:200px'>Game Over</h1>";
-
+      area.innerHTML="<h1 style='text-align:center;margin-top:200px'>Game Over</h1>";
     }
 
-    document.querySelector("#timerVal").innerHTML = timerVal;
+    document.querySelector("#timerVal").innerHTML=timerVal;
 
   },1000)
 
