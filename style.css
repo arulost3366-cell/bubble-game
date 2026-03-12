@@ -1,48 +1,62 @@
-/* 去掉浏览器默认边距，避免iframe白边 */
-html, body{
+body{
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+font-family:Arial;
 margin:0;
 padding:0;
-background:white;
-font-family:Arial, Helvetica, sans-serif;
 }
 
-/* 顶部信息栏 */
-#topBar{
-width:100%;
-height:70px;
+#panel{
+width:900px;
+height:600px;
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+#topbar{
 background:royalblue;
 display:flex;
-align-items:center;
 justify-content:space-around;
+padding:15px;
 color:white;
-font-size:18px;
-font-weight:bold;
 }
 
-/* 数字显示框 */
-.infoBox{
+.info{
+text-align:center;
+font-size:16px;
+}
+
+.info div{
 background:white;
 color:black;
 padding:6px 14px;
 border-radius:6px;
+margin-top:5px;
 font-weight:bold;
 }
 
-/* 游戏区域 */
 #gameArea{
-width:100%;
-height:calc(100vh - 70px);
 position:relative;
+width:100%;
+height:520px;
 }
 
 /* bubble */
+
 .bubble{
+
 position:absolute;
 
 width:140px;
 height:140px;
 
 border-radius:50%;
+
 background:royalblue;
 color:white;
 
@@ -50,20 +64,57 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-font-size:40px;
+font-size:42px;
 font-weight:bold;
 
 cursor:pointer;
 
-transition:transform 0.2s;
+animation:float 3s ease-in-out infinite;
+
+transition:transform 0.2s, opacity 0.3s;
+
 }
 
-/* hover效果 */
+/* 漂浮动画 */
+
+@keyframes float{
+
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-8px);
+}
+
+100%{
+transform:translateY(0px);
+}
+
+}
+
+/* hover */
+
 .bubble:hover{
-transform:scale(1.08);
+transform:scale(1.1);
 }
 
-/* 点击效果 */
-.bubble:active{
-transform:scale(0.95);
+/* 爆裂动画 */
+
+.pop{
+animation:pop 0.25s forwards;
+}
+
+@keyframes pop{
+
+0%{
+transform:scale(1);
+opacity:1;
+}
+
+100%{
+transform:scale(1.4);
+opacity:0;
+}
+
 }
