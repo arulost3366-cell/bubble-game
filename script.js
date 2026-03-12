@@ -40,15 +40,13 @@ var runTimer = () => {
 };
 getNewHit();
 document.querySelector("#pbtm").addEventListener("click", (e) => {
-  var clickedNum = Number(e.target.textContent);
-  if (hitVal == clickedNum) {
-    increaseScore();
-    makeBubble();
-    getNewHit();
-  } else {
-    alert("Wrong Bubble!");
+  if (e.target.classList.contains("bubble")) {
+    e.target.remove();   // bubble 消失
+    scoreVal += 1;
+    document.querySelector("#scoreVal").innerHTML = scoreVal;
   }
 });
 makeBubble();
 runTimer();
+
 
