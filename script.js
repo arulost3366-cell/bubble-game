@@ -1,4 +1,4 @@
-var timerVal = 60;
+var timerVal = 300;
 var scoreVal = 0;
 var hitVal = 0;
 
@@ -17,7 +17,7 @@ var getNewHit = () => {
 //Creates Bubbles with random numbers.
 var makeBubble = () => {
   var clutter = "";
-  for (var i = 0; i < 253; i++) {
+  for (var i = 0; i < 40; i++) {
     var random_num = Math.floor(Math.random() * 10);
     bubbleVal = random_num;
     clutter += `<div class="bubble">${bubbleVal}</div>`;
@@ -51,3 +51,4 @@ document.querySelector("#pbtm").addEventListener("click", (e) => {
 });
 makeBubble();
 runTimer();
+
