@@ -38,8 +38,8 @@ function generateBoard(){
     var col=i%cols;
     var row=Math.floor(i/cols);
 
-    var offsetX=Math.random()*40;
-    var offsetY=Math.random()*40;
+    var offsetX=Math.random()*30;
+    var offsetY=Math.random()*30;
 
     bubble.style.left=(col*cellWidth+40+offsetX)+"px";
     bubble.style.top=(row*cellHeight+40+offsetY)+"px";
@@ -98,3 +98,4 @@ function runTimer(){
 
 generateBoard();
 runTimer();
+
