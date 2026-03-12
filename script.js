@@ -1,116 +1,105 @@
-var timerVal = 300
-var scoreVal = 0
-var nextNumber = 1
+var timerVal = 300;
+var scoreVal = 0;
+var nextNumber = 1;
 
-var bubbleCount = 10
+var gridCols = 4;
+var gridRows = 3;
 
-var area = document.querySelector("#gameArea")
+var area = document.querySelector("#gameArea");
 
-function randomPosition(){
-
-var x = Math.random()*750
-var y = Math.random()*420
-
-return {x,y}
-
-}
-
-function createBubble(num){
-
-var bubble = document.createElement("div")
-
-bubble.classList.add("bubble")
-
-bubble.textContent = num
-
-var pos = randomPosition()
-
-bubble.style.left = pos.x + "px"
-bubble.style.top = pos.y + "px"
-
-bubble.onclick = function(){
-
-if(num === nextNumber){
-
-scoreVal++
-
-document.querySelector("#scoreVal").innerHTML = scoreVal
-
-nextNumber++
-
-if(nextNumber > 5){
-nextNumber = 1
-}
-
-document.querySelector("#hitVal").innerHTML = nextNumber
-
-bubble.remove()
-
-spawnBubble()
-
-}
-
-}
-
-area.appendChild(bubble)
-
-}
-
-function spawnBubble(){
-
-var num
-
-if(Math.random() < 0.5){
-
-num = nextNumber
-
-}else{
-
-num = Math.floor(Math.random()*5)+1
-
-}
-
-createBubble(num)
-
+function shuffle(array){
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
 
 function generateBoard(){
 
-for(var i=0;i<bubbleCount;i++){
+  area.innerHTML = "";
 
-var num = Math.floor(Math.random()*5)+1
+  nextNumber = 1;
+  document.querySelector("#hitVal").innerHTML = nextNumber;
 
-createBubble(num)
+  var numbers = [1,2,3,4,5,6,7,8,9];
+  numbers = shuffle(numbers);
 
-}
+  var cellWidth = area.clientWidth / gridCols;
+  var cellHeight = area.clientHeight / gridRows;
+
+  for(let i=0;i<9;i++){
+
+    var bubble = document.createElement("div");
+    bubble.classList.add("bubble");
+
+    bubble.textContent = numbers[i];
+
+    var col = i % gridCols;
+    var row = Math.floor(i / gridCols);
+
+    var offsetX = Math.random()*40;
+    var offsetY = Math.random()*40;
+
+    bubble.style.left = (col * cellWidth + 30 + offsetX) + "px";
+    bubble.style.top = (row * cellHeight + 30 + offsetY) + "px";
+
+    bubble.onclick = function(){
+
+      var num = Number(this.textContent);
+
+      if(num === nextNumber){
+
+        scoreVal++;
+        document.querySelector("#scoreVal").innerHTML = scoreVal;
+
+        this.remove();
+
+        nextNumber++;
+
+        if(nextNumber > 9){
+
+          setTimeout(()=>{
+            generateBoard();
+          },500);
+
+        }else{
+
+          document.querySelector("#hitVal").innerHTML = nextNumber;
+
+        }
+
+      }
+
+    };
+
+    area.appendChild(bubble);
+
+  }
 
 }
 
 function runTimer(){
 
-var timer = setInterval(function(){
+  var timer = setInterval(function(){
 
-if(timerVal > 0){
+    if(timerVal > 0){
 
-timerVal--
+      timerVal--;
 
-}else{
+    }else{
 
-clearInterval(timer)
+      clearInterval(timer);
 
-area.innerHTML = "<h1 style='text-align:center;margin-top:200px'>Game Over</h1>"
+      area.innerHTML = "<h1 style='text-align:center;margin-top:200px'>Game Over</h1>";
+
+    }
+
+    document.querySelector("#timerVal").innerHTML = timerVal;
+
+  },1000)
 
 }
 
-document.querySelector("#timerVal").innerHTML = timerVal
-
-},1000)
-
-}
-
-document.querySelector("#hitVal").innerHTML = nextNumber
-
-generateBoard()
-
-runTimer()
-
+generateBoard();
+runTimer();
